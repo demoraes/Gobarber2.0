@@ -6,7 +6,18 @@ interface CreateAppointmentDTO {
   date: Date;
 }
 
+/**
+ *                          **Anotações Repositories**
+ *  Repositories: Conexão entre a persistencia dos dados(banco de dados, localstorag e etc) e
+ *  a nossa rota
+ *
+ *
+ *  Obs: - Sempre que você precisar de alguma informação você ira se conectar com o repositorio
+ *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
+ */
+
 class AppointmentsRepository {
+  // variavel que não é acessivel fora da classe
   private appointments: Appointment[];
 
   constructor() {
@@ -21,6 +32,8 @@ class AppointmentsRepository {
     const findAppointment = this.appointments.find(appointment =>
       isEqual(date, appointment.date),
     );
+
+    // se houver retorna findAppointment se não retorna null
     return findAppointment || null;
   }
 

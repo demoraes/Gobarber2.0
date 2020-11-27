@@ -7,9 +7,17 @@ interface Request {
   date: Date;
 }
 
+/**
+ *                          **Anotações Services**
+ *
+ *  Service: - Não possui acesso aos dados da requisição e resposta.
+ *           - Possui somente uma unica responsabilidade
+ */
+
 class CreateAppointmentService {
   private appointmentsRepository: AppointmentRepository;
 
+  // appointmentsRepository é uma instância da classe AppointmentRepository
   constructor(appointmentsRepository: AppointmentRepository) {
     this.appointmentsRepository = appointmentsRepository;
   }
@@ -17,6 +25,7 @@ class CreateAppointmentService {
   public execute({ date, provider }: Request): Appointment {
     const appointmentDate = startOfHour(date);
 
+    // verifica se a date está disponivel
     const findAppointmentInSameDate = this.appointmentsRepository.findByDate(
       appointmentDate,
     );
