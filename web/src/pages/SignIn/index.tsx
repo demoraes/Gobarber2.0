@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useRef, useCallback, useContext } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hoosks/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import logImg from '../../assets/logo.svg';
