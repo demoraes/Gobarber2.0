@@ -17,10 +17,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
+  /**
+   * Retorna a referencia do input
+   */
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
+  /**
+   * useField serve para pegar o nome do campo do input
+   */
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   const handleInputFocus = useCallback(() => {
@@ -35,9 +41,9 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
 
   useEffect(() => {
     registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
+      name: fieldName, // nome do campo do input
+      ref: inputRef.current, // referencia do campo do input
+      path: 'value', // valor do input
     });
   }, [fieldName, registerField]);
 
