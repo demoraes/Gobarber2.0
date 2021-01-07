@@ -16,4 +16,5 @@ export const ButtonText = styled.Text`
   font-family: 'RobotoSlab-Medium';
   color: #312e28;
   font-size: 18px;
+  padding: 41% 41%;
 `;
