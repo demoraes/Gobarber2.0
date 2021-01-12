@@ -1,6 +1,8 @@
 import { EntityRepository, Repository } from 'typeorm';
 
-import Appointment from '../infra/typeorm/entities/Appointment';
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+
+import Appointment from '../entities/Appointment';
 
 /**
  *                          **Anotações Repositories**
@@ -12,14 +14,16 @@ import Appointment from '../infra/typeorm/entities/Appointment';
  *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
  */
 @EntityRepository(Appointment)
-class AppointmentsRepository extends Repository<Appointment> {
-  public async findByDate(date: Date): Promise<Appointment | null> {
+class AppointmentsRepository
+  extends Repository<Appointment>
+  implements IAppointmentsRepository {
+  public async findByDate(date: Date): Promise<Appointment | undefined> {
     const findAppointment = await this.findOne({
       where: { date },
     });
 
     // se houver retorna findAppointment se não retorna null
-    return findAppointment || null;
+    return findAppointment;
   }
 }
 
