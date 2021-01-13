@@ -1,0 +1,52 @@
+import { getRepository, Repository } from 'typeorm';
+
+import IUsersRepository from '@modules/users/repositories/IUsersRepository';
+import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
+
+import User from '../entities/User';
+
+/**
+ *                          **Anotações Repositories**
+ *  Repositories: Conexão entre a persistencia dos dados(banco de dados, localstorag e etc) e
+ *  a nossa rota
+ *
+ *
+ *  Obs: - Sempre que você precisar de alguma informação você ira se conectar com o repositorio
+ *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
+ */
+
+class UsersRepository implements IUsersRepository {
+  private ormRepository: Repository<User>;
+
+  constructor() {
+    this.ormRepository = getRepository(User);
+  }
+
+  public async findById(id: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne(id);
+
+    return user;
+  }
+
+  public async findByEmail(email: string): Promise<User | undefined> {
+    const user = await this.ormRepository.findOne({
+      where: { email },
+    });
+
+    return user;
+  }
+
+  public async create(userData: ICreateUserDTO): Promise<User> {
+    const appointments = this.ormRepository.create(userData);
+
+    await this.ormRepository.save(appointments);
+
+    return appointments;
+  }
+
+  public async save(user: User): Promise<User> {
+    return this.ormRepository.save(user);
+  }
+}
+
+export default UsersRepository;
