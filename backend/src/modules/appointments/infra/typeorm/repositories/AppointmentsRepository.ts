@@ -1,6 +1,7 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 
 import Appointment from '../entities/Appointment';
 
@@ -13,17 +14,32 @@ import Appointment from '../entities/Appointment';
  *  Obs: - Sempre que você precisar de alguma informação você ira se conectar com o repositorio
  *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
  */
-@EntityRepository(Appointment)
-class AppointmentsRepository
-  extends Repository<Appointment>
-  implements IAppointmentsRepository {
+
+class AppointmentsRepository implements IAppointmentsRepository {
+  private ormRepository: Repository<Appointment>;
+
+  constructor() {
+    this.ormRepository = getRepository(Appointment);
+  }
+
   public async findByDate(date: Date): Promise<Appointment | undefined> {
-    const findAppointment = await this.findOne({
+    const findAppointment = await this.ormRepository.findOne({
       where: { date },
     });
 
     // se houver retorna findAppointment se não retorna null
     return findAppointment;
+  }
+
+  public async create({
+    provider_id,
+    date,
+  }: ICreateAppointmentDTO): Promise<Appointment> {
+    const appointments = this.ormRepository.create({ provider_id, date });
+
+    await this.ormRepository.save(appointments);
+
+    return appointments;
   }
 }
 
