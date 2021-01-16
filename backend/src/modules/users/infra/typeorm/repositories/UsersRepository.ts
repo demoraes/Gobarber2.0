@@ -5,16 +5,6 @@ import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 
 import User from '../entities/User';
 
-/**
- *                          **Anotações Repositories**
- *  Repositories: Conexão entre a persistencia dos dados(banco de dados, localstorag e etc) e
- *  a nossa rota
- *
- *
- *  Obs: - Sempre que você precisar de alguma informação você ira se conectar com o repositorio
- *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
- */
-
 class UsersRepository implements IUsersRepository {
   private ormRepository: Repository<User>;
 
