@@ -5,16 +5,6 @@ import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointment
 
 import Appointment from '../entities/Appointment';
 
-/**
- *                          **Anotações Repositories**
- *  Repositories: Conexão entre a persistencia dos dados(banco de dados, localstorag e etc) e
- *  a nossa rota
- *
- *
- *  Obs: - Sempre que você precisar de alguma informação você ira se conectar com o repositorio
- *       - Possui a responsabilidade de criar, armazenar, ler, deletar e editar
- */
-
 class AppointmentsRepository implements IAppointmentsRepository {
   private ormRepository: Repository<Appointment>;
 

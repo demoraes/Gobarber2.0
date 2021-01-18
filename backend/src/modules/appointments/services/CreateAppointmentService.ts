@@ -11,13 +11,6 @@ interface IRequest {
   date: Date;
 }
 
-/**
- *                          **Anotações Services**
- *
- *  Service: - Não possui acesso aos dados da requisição e resposta.
- *           - Possui somente uma unica responsabilidade
- */
-
 @injectable()
 class CreateAppointmentService {
   constructor(
