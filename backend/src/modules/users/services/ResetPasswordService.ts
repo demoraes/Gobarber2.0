@@ -19,7 +19,7 @@ class ResetPasswordService {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('UserTokensRepository')
+    @inject('UserTokenRepository')
     private userTokenRepository: IUserTokensRepository,
 
     @inject('HashProvider')
