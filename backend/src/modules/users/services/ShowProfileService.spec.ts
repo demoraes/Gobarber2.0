@@ -2,11 +2,9 @@ import AppError from '@shared/errors/AppError';
 
 import FakeUsersRepository from '../repositories/fakes/FakeUsersRepository';
 import ShowProfileService from './ShowProfileService';
-import UpdateProfile from './UpdateProfileService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let showProfile: ShowProfileService;
-let updateProfile: UpdateProfile;
 
 describe('UpdateProfile', () => {
   beforeEach(() => {
@@ -28,16 +26,6 @@ describe('UpdateProfile', () => {
 
     expect(profile.name).toBe('John Doe');
     expect(profile.email).toBe('johndoe@example.com');
-  });
-
-  it('should not be able update the profile from non-existing user', async () => {
-    expect(
-      updateProfile.execute({
-        user_id: 'non-existing-user-id',
-        name: 'Test',
-        email: 'test@example.com',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able show the profile from non-existing user', async () => {
