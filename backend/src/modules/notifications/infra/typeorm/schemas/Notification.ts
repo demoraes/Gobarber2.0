@@ -1,10 +1,10 @@
 import {
   ObjectID,
+  ObjectIdColumn,
   Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  ObjectIdColumn,
 } from 'typeorm';
 
 @Entity('notifications')
