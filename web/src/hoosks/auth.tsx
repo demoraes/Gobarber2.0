@@ -2,18 +2,24 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
 
+interface User {
+  id: string;
+  name: string;
+  avatar_url: string;
+}
+
 interface SignInCredencials {
   email: string;
   password: string;
 }
 
 interface AuthState {
-  user: object;
+  user: User;
   token: string;
 }
 
 interface AuthContextData {
-  user: object;
+  user: User;
   signIn(credencials: SignInCredencials): Promise<void>;
   signOut(): void;
 }
