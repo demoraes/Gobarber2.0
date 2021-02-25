@@ -32,6 +32,8 @@
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
       "no-unused-expressions": "off",
+      "import/no-duplicates": "off",
+      "@typescript-eslint/no-duplicate-imports": ["error"],
       "react/jsx-filename-extension": [
           1,
           {
