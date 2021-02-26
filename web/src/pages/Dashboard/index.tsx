@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { isToday, format, parseISO, isAfter } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import { FiClock, FiPower } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
-import { FiClock, FiPower } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../hoosks/auth';
+import api from '../../services/api';
+
 import {
   Container,
   Header,
@@ -12,15 +16,13 @@ import {
   Profile,
   Content,
   Schedule,
-  Calendar,
   NextAppointment,
   Section,
   Appointment,
+  Calendar,
 } from './styles';
 
 import logoImg from '../../assets/logo.svg';
-import { useAuth } from '../../hoosks/auth';
-import api from '../../services/api';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -70,7 +72,7 @@ const Dashboard: React.FC = () => {
       .then(response => {
         setMonthAvailability(response.data);
       });
-  }, [currentMonth]);
+  }, [currentMonth, user.id]);
 
   useEffect(() => {
     api
@@ -82,13 +84,11 @@ const Dashboard: React.FC = () => {
         },
       })
       .then(response => {
-        const appointmentsFormatted = response.data.map(appointment => {
-          return {
-            ...appointment,
-            hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
-          };
-        });
-        console.log(appointmentsFormatted);
+        const appointmentsFormatted = response.data.map(appointment => ({
+          ...appointment,
+          hourFormatted: format(parseISO(appointment.date), 'HH:mm'),
+        }));
+
         setAppointments(appointmentsFormatted);
       });
   }, [selectedDate]);
@@ -99,6 +99,7 @@ const Dashboard: React.FC = () => {
       .map(monthDay => {
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
+
         return new Date(year, month, monthDay.day);
       });
 
@@ -112,10 +113,12 @@ const Dashboard: React.FC = () => {
   }, [selectedDate]);
 
   const selectedWeekDay = useMemo(() => {
-    return format(selectedDate, 'cccc', { locale: ptBR });
+    return format(selectedDate, 'cccc', {
+      locale: ptBR,
+    });
   }, [selectedDate]);
 
-  const mornigAppointments = useMemo(() => {
+  const morningAppointments = useMemo(() => {
     return appointments.filter(appointment => {
       return parseISO(appointment.date).getHours() < 12;
     });
@@ -137,14 +140,15 @@ const Dashboard: React.FC = () => {
     <Container>
       <Header>
         <HeaderContent>
+          <img src={logoImg} alt="GoBarber" />
+
           <Profile>
-            <img src={logoImg} alt="Gobarber" />
-
             <img src={user.avatar_url} alt={user.name} />
-
             <div>
-              <span>Bem-vindo</span>
-              <strong>{user.name}</strong>
+              <span>Bem vindo,</span>
+              <Link to="/profile">
+                <strong>{user.name}</strong>
+              </Link>
             </div>
           </Profile>
 
@@ -184,11 +188,11 @@ const Dashboard: React.FC = () => {
           <Section>
             <strong>Manhã</strong>
 
-            {mornigAppointments.length === 0 && (
+            {morningAppointments.length === 0 && (
               <p>Nenhum agendamento neste período</p>
             )}
 
-            {mornigAppointments.map(appointment => (
+            {morningAppointments.map(appointment => (
               <Appointment key={appointment.id}>
                 <span>
                   <FiClock />
@@ -233,6 +237,7 @@ const Dashboard: React.FC = () => {
             ))}
           </Section>
         </Schedule>
+
         <Calendar>
           <DayPicker
             weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
@@ -264,5 +269,4 @@ const Dashboard: React.FC = () => {
     </Container>
   );
 };
-
 export default Dashboard;
