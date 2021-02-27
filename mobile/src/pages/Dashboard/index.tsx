@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
